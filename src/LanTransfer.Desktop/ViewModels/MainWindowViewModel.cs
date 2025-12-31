@@ -13,6 +13,7 @@ using CommunityToolkit.Mvvm.Input;
 using LanTransfer.Core.Discovery;
 using LanTransfer.Core.Friends;
 using LanTransfer.Core.Models;
+using LanTransfer.Core.Settings;
 using LanTransfer.Core.Signaling;
 using LanTransfer.Core.Transfer;
 
@@ -25,6 +26,8 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly TcpTransferClient _transferClient;
     private readonly FriendsManager _friendsManager;
     private readonly SignalingClient _signalingClient;
+    private readonly SettingsManager _settingsManager;
+    
     
     // Server URL - change this when deploying
     private const string SIGNALING_SERVER_URL = "https://lantransfer-signaling.onrender.com";
@@ -63,6 +66,10 @@ public partial class MainWindowViewModel : ObservableObject
     public string TransferProgressText => CurrentTransfer?.ProgressFormatted ?? "";
     public string TransferPercent => $"{TransferProgress:F1}%";
     
+    // User profile
+    public string CurrentUsername => _settingsManager?.Username ?? Environment.MachineName;
+    public bool HasUsername => _settingsManager?.HasUsername ?? false;
+    
     public IBrush StatusColor => HasPeers 
         ? new SolidColorBrush(Color.Parse("#22c55e")) 
         : new SolidColorBrush(Color.Parse("#eab308"));
@@ -73,6 +80,9 @@ public partial class MainWindowViewModel : ObservableObject
     
     public MainWindowViewModel()
     {
+        // Initialize settings first
+        _settingsManager = new SettingsManager();
+        
         // Initialize TCP server first to get the port
         _transferServer = new TcpTransferServer();
         
@@ -108,7 +118,42 @@ public partial class MainWindowViewModel : ObservableObject
     {
         _discoveryService.Start();
         _transferServer.Start();
-        StatusMessage = "Recherche d'appareils sur le réseau...";
+        StatusMessage = HasUsername 
+            ? $"Connecté en tant que {CurrentUsername}" 
+            : "Recherche d'appareils...";
+    }
+    
+    public async Task CheckUsernameAsync()
+    {
+        if (!_settingsManager.HasUsername)
+        {
+            await ShowUsernameDialogAsync();
+        }
+    }
+    
+    [RelayCommand]
+    private async Task EditProfile()
+    {
+        await ShowUsernameDialogAsync();
+    }
+    
+    private async Task ShowUsernameDialogAsync()
+    {
+        if (Application.Current?.ApplicationLifetime 
+            is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop 
+            && desktop.MainWindow != null)
+        {
+            var dialog = new UsernameDialog(_settingsManager.Username);
+            await dialog.ShowDialog(desktop.MainWindow);
+            
+            if (dialog.WasSaved)
+            {
+                _settingsManager.SetUsername(dialog.Username);
+                OnPropertyChanged(nameof(CurrentUsername));
+                OnPropertyChanged(nameof(HasUsername));
+                StatusMessage = $"Connecté en tant que {CurrentUsername}";
+            }
+        }
     }
     
     public void StopServices()

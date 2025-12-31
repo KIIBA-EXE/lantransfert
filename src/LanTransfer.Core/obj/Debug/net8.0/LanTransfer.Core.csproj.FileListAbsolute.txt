@@ -9,3 +9,4 @@
 /home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/refint/LanTransfer.Core.dll
 /home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/LanTransfer.Core.pdb
 /home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/ref/LanTransfer.Core.dll
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/LanTransfer.Core.sourcelink.json

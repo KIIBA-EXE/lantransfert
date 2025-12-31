@@ -1,4 +1,4 @@
-# LAN Transfer Signaling Server
+# KITRANSFERT Signaling Server
 
 Simple Node.js server for peer discovery via share codes.
 

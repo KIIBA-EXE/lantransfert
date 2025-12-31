@@ -233,3 +233,4 @@
 /home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.csproj.CopyComplete
 /home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.genruntimeconfig.cache
 /home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/ref/LanTransfer.Desktop.dll
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.sourcelink.json

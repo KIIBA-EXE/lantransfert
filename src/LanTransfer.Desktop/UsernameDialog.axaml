@@ -1,0 +1,86 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="LanTransfer.Desktop.UsernameDialog"
+        Title="Votre profil"
+        Width="420"
+        Height="300"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Background="#0f0f1a"
+        SystemDecorations="BorderOnly">
+    
+    <Window.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#1e293b"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#334155"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="16,14"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBox:focus">
+            <Setter Property="BorderBrush" Value="#6366f1"/>
+        </Style>
+        
+        <Style Selector="Button.primary">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#6366f1" Offset="0"/>
+                        <GradientStop Color="#8b5cf6" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="24,14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </Window.Styles>
+    
+    <Border Background="#1a1e2e" CornerRadius="16" Margin="12" BorderThickness="1" BorderBrush="#2a2f42">
+        <Grid RowDefinitions="Auto,*,Auto" Margin="24">
+            <!-- Header -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+                <TextBlock Text="👤" FontSize="56" HorizontalAlignment="Center"/>
+                <TextBlock Text="Choisissez votre pseudo"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,0"/>
+                <TextBlock Text="Vos amis vous verront sous ce nom"
+                           FontSize="13"
+                           Foreground="#64748b"
+                           HorizontalAlignment="Center"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+            
+            <!-- Input -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <TextBox x:Name="UsernameInput"
+                         Watermark="Votre pseudo..."
+                         MaxLength="20"/>
+                
+                <TextBlock x:Name="ErrorText"
+                           FontSize="12"
+                           Foreground="#ef4444"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,0"
+                           IsVisible="False"/>
+            </StackPanel>
+            
+            <!-- Button -->
+            <Button Grid.Row="2"
+                    Classes="primary"
+                    Content="✓ Continuer"
+                    Click="OnContinue"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"/>
+        </Grid>
+    </Border>
+</Window>

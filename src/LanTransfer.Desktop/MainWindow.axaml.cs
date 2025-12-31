@@ -26,8 +26,10 @@ public partial class MainWindow : Window
         Closing += OnClosing;
     }
     
-    private void OnOpened(object? sender, EventArgs e)
+    private async void OnOpened(object? sender, EventArgs e)
     {
+        // Check username first
+        await ViewModel.CheckUsernameAsync();
         ViewModel.StartServices();
     }
     
@@ -96,5 +98,10 @@ public partial class MainWindow : Window
     private async void OnDropZoneTapped(object? sender, RoutedEventArgs e)
     {
         await ViewModel.SelectFileCommand.ExecuteAsync(null);
+    }
+    
+    private async void OnProfileTapped(object? sender, RoutedEventArgs e)
+    {
+        await ViewModel.EditProfileCommand.ExecuteAsync(null);
     }
 }

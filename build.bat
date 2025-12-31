@@ -1,8 +1,8 @@
 @echo off
-REM LAN Transfer Build Script for Windows
+REM KITRANSFERT Build Script for Windows
 REM Builds self-contained executables for all platforms
 
-echo 🔨 Building LAN Transfer...
+echo 🔨 Building KITRANSFERT...
 echo ==========================
 
 set PROJECT_DIR=%~dp0

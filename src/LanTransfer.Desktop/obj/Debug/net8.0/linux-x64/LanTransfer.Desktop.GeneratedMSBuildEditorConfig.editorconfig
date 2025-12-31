@@ -40,3 +40,6 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/TransferRequestDialog.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/UsernameDialog.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

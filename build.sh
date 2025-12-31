@@ -1,5 +1,5 @@
 #!/bin/bash
-# LAN Transfer Build Script
+# KITRANSFERT Build Script
 # Builds self-contained executables for all platforms
 
 set -e
@@ -8,7 +8,7 @@ PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUTPUT_DIR="$PROJECT_DIR/releases"
 PROJECT_PATH="$PROJECT_DIR/src/LanTransfer.Desktop/LanTransfer.Desktop.csproj"
 
-echo "🔨 Building LAN Transfer..."
+echo "🔨 Building KITRANSFERT..."
 echo "=========================="
 
 # Clean previous builds

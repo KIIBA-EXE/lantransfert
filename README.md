@@ -1,4 +1,4 @@
-# LAN Transfer
+# KITRANSFERT
 
 Application de transfert de fichiers en réseau local (LAN) similaire à AirDrop, compatible Windows/Linux/macOS.
 

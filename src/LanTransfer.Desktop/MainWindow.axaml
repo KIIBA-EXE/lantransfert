@@ -4,264 +4,460 @@
         xmlns:models="using:LanTransfer.Core.Models"
         x:Class="LanTransfer.Desktop.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Title="LAN Transfer"
-        Width="800"
-        Height="600"
-        MinWidth="600"
-        MinHeight="400"
-        Background="#1a1a2e"
-        WindowStartupLocation="CenterScreen">
+        Title="KITRANSFERT"
+        Width="900"
+        Height="650"
+        MinWidth="700"
+        MinHeight="500"
+        WindowStartupLocation="CenterScreen"
+        TransparencyLevelHint="AcrylicBlur"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome">
     
     <Window.Styles>
-        <!-- Modern button style -->
+        <!-- Modern Primary Button with gradient -->
         <Style Selector="Button.primary">
-            <Setter Property="Background" Value="#6366f1"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#6366f1" Offset="0"/>
+                        <GradientStop Color="#8b5cf6" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="18,12"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#818cf8"/>
-        </Style>
-        
-        <!-- Card style -->
-        <Style Selector="Border.card">
-            <Setter Property="Background" Value="#16213e"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Padding" Value="16"/>
-        </Style>
-        
-        <!-- Peer item style -->
-        <Style Selector="Border.peer-item">
-            <Setter Property="Background" Value="#0f3460"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Padding" Value="12"/>
-            <Setter Property="Margin" Value="0,4"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#818cf8" Offset="0"/>
+                        <GradientStop Color="#a78bfa" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Secondary Button -->
+        <Style Selector="Button.secondary">
+            <Setter Property="Background" Value="#1e293b"/>
+            <Setter Property="Foreground" Value="#e2e8f0"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="18,12"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#334155"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.secondary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#334155"/>
+        </Style>
+        
+        <!-- Green Button -->
+        <Style Selector="Button.success">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#10b981" Offset="0"/>
+                        <GradientStop Color="#06b6d4" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="18,12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.success:pointerover /template/ ContentPresenter">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#34d399" Offset="0"/>
+                        <GradientStop Color="#22d3ee" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Glass Card -->
+        <Style Selector="Border.glass-card">
+            <Setter Property="Background" Value="#1a1e2e"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#2a2f42"/>
+        </Style>
+        
+        <!-- Peer item -->
+        <Style Selector="Border.peer-item">
+            <Setter Property="Background" Value="#0d1117"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="14"/>
+            <Setter Property="Margin" Value="0,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#21262d"/>
+        </Style>
         <Style Selector="Border.peer-item:pointerover">
-            <Setter Property="Background" Value="#1a4980"/>
+            <Setter Property="Background" Value="#161b22"/>
+            <Setter Property="BorderBrush" Value="#30363d"/>
         </Style>
     </Window.Styles>
     
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <!-- Main Background with gradient -->
+    <Panel>
+        <Panel.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#0f0f1a" Offset="0"/>
+                <GradientStop Color="#1a1a2e" Offset="0.5"/>
+                <GradientStop Color="#0d1117" Offset="1"/>
+            </LinearGradientBrush>
+        </Panel.Background>
         
-        <!-- Header -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="LAN Transfer" 
-                       FontSize="28" 
-                       FontWeight="Bold" 
-                       Foreground="White"/>
-            <TextBlock Text="Transfert de fichiers en réseau local - style AirDrop" 
-                       FontSize="14" 
-                       Foreground="#94a3b8"
-                       Margin="0,4,0,0"/>
-        </StackPanel>
+        <!-- Decorative gradient orbs -->
+        <Ellipse Width="400" Height="400" 
+                 Opacity="0.15"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Margin="-100,-100,0,0">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#6366f1" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
         
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="280"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <Ellipse Width="300" Height="300" 
+                 Opacity="0.1"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Bottom"
+                 Margin="0,0,-50,-50">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#8b5cf6" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        
+        <!-- Main Content -->
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             
-            <!-- Left Panel: Peers List -->
-            <Border Grid.Column="0" Classes="card">
-                <Grid RowDefinitions="Auto,*,Auto">
-                    <StackPanel Grid.Row="0" Margin="0,0,0,12">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <TextBlock Text="Appareils Détectés" 
-                                       FontSize="16" 
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="0,8,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="🚀" FontSize="32"/>
+                        <TextBlock Text="KITRANSFERT" 
+                                   FontSize="28" 
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Foreground>
+                                <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%">
+                                    <GradientStop Color="#ffffff" Offset="0"/>
+                                    <GradientStop Color="#a78bfa" Offset="1"/>
+                                </LinearGradientBrush>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock Text="Transfert de fichiers rapide et sécurisé" 
+                               FontSize="14" 
+                               Foreground="#64748b"
+                               Margin="44,4,0,0"/>
+                </StackPanel>
+                
+                <!-- User Profile Badge -->
+                <Border Grid.Column="1" 
+                        Background="#0d1117"
+                        CornerRadius="20"
+                        Padding="12,8"
+                        BorderThickness="1"
+                        BorderBrush="#21262d"
+                        VerticalAlignment="Center"
+                        Cursor="Hand"
+                        Tapped="OnProfileTapped"
+                        Margin="0,0,12,0">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="👤" FontSize="14"/>
+                        <TextBlock Text="{Binding CurrentUsername}" 
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="#f1f5f9"/>
+                        <TextBlock Text="✏️" FontSize="10" Opacity="0.6"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Status Badge -->
+                <Border Grid.Column="2" 
+                        Background="#0d1117"
+                        CornerRadius="20"
+                        Padding="12,8"
+                        BorderThickness="1"
+                        BorderBrush="#21262d"
+                        VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Ellipse Width="8" Height="8" Fill="{Binding StatusColor}"/>
+                        <TextBlock Text="{Binding PeerCountText}" 
+                                   FontSize="13"
+                                   Foreground="#94a3b8"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            
+            <!-- Main Area -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="24"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Left Panel: Peers & Controls -->
+                <Border Grid.Column="0" Classes="glass-card">
+                    <Grid RowDefinitions="Auto,*,Auto">
+                        <!-- Header -->
+                        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+                            <TextBlock Text="📡 Appareils" 
+                                       FontSize="18" 
                                        FontWeight="SemiBold"
                                        Foreground="White"/>
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Ellipse Width="8" Height="8" 
-                                         Fill="{Binding StatusColor}" 
-                                         Margin="0,0,6,0"/>
-                                <TextBlock Text="{Binding PeerCountText}" 
-                                           FontSize="12"
-                                           Foreground="#94a3b8"/>
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
-                    
-                    <!-- Peers ScrollViewer -->
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                        <ItemsControl ItemsSource="{Binding Peers}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="models:Peer">
-                                    <Border Classes="peer-item" 
-                                            Tapped="OnPeerTapped">
-                                        <Grid ColumnDefinitions="Auto,*,Auto">
-                                            <!-- Avatar -->
-                                            <Border Width="40" Height="40" 
-                                                    CornerRadius="20" 
-                                                    Background="#6366f1">
-                                                <TextBlock Text="{Binding Name, Converter={StaticResource FirstCharConverter}}"
-                                                           FontSize="16"
-                                                           FontWeight="Bold"
-                                                           Foreground="White"
-                                                           HorizontalAlignment="Center"
+                            <TextBlock Text="Cliquez sur un appareil pour l'envoyer" 
+                                       FontSize="12"
+                                       Foreground="#64748b"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                        
+                        <!-- Peers List -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Peers}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Peer">
+                                        <Border Classes="peer-item" Tapped="OnPeerTapped">
+                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                <!-- Avatar with gradient -->
+                                                <Border Width="44" Height="44" CornerRadius="22">
+                                                    <Border.Background>
+                                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                                            <GradientStop Color="#6366f1" Offset="0"/>
+                                                            <GradientStop Color="#8b5cf6" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Border.Background>
+                                                    <TextBlock Text="{Binding Name, Converter={StaticResource FirstCharConverter}}"
+                                                               FontSize="18"
+                                                               FontWeight="Bold"
+                                                               Foreground="White"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+                                                </Border>
+                                                
+                                                <!-- Name & IP -->
+                                                <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Name}" 
+                                                               FontSize="14" 
+                                                               FontWeight="SemiBold"
+                                                               Foreground="#f1f5f9"/>
+                                                    <TextBlock Text="{Binding IpAddress}" 
+                                                               FontSize="12"
+                                                               Foreground="#64748b"
+                                                               Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                                
+                                                <!-- Arrow -->
+                                                <TextBlock Grid.Column="2"
+                                                           Text="→"
+                                                           FontSize="18"
+                                                           Foreground="#475569"
                                                            VerticalAlignment="Center"/>
-                                            </Border>
-                                            
-                                            <!-- Name & IP -->
-                                            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Name}" 
-                                                           FontSize="14" 
-                                                           FontWeight="SemiBold"
-                                                           Foreground="White"/>
-                                                <TextBlock Text="{Binding IpAddress}" 
-                                                           FontSize="12"
-                                                           Foreground="#64748b"/>
-                                            </StackPanel>
-                                            
-                                            <!-- Send icon -->
-                                            <TextBlock Grid.Column="2"
-                                                       Text="📤"
-                                                       FontSize="16"
-                                                       VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                    
-                    <!-- Empty state -->
-                    <StackPanel Grid.Row="1" 
-                                IsVisible="{Binding !HasPeers}"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <TextBlock Text="👀" FontSize="48" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Recherche d'appareils..."
-                                   FontSize="14"
-                                   Foreground="#64748b"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,8,0,0"/>
-                    </StackPanel>
-                    
-                    <!-- Code Share Buttons -->
-                    <StackPanel Grid.Row="2" Spacing="8" Margin="0,12,0,0">
-                        <Button Classes="primary"
-                                Content="🔗 Partager mon code"
-                                Command="{Binding ShareCodeCommand}"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Center"/>
-                        <Button Classes="primary"
-                                Content="🎯 Entrer un code ami"
-                                Command="{Binding EnterCodeCommand}"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Center"
-                                Background="#22c55e"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
-            
-            <!-- Right Panel: Drop Zone & Progress -->
-            <Border Grid.Column="2" Classes="card">
-                <Grid RowDefinitions="*,Auto">
-                    <!-- Drop Zone -->
-                    <Border Grid.Row="0"
-                            BorderBrush="#334155"
-                            BorderThickness="2"
-                            CornerRadius="12"
-                            Background="{Binding DropZoneBackground}"
-                            DragDrop.AllowDrop="True"
-                            Tapped="OnDropZoneTapped">
-                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="📁" FontSize="64" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Glissez-déposez vos fichiers ou dossiers"
-                                       FontSize="16"
-                                       FontWeight="SemiBold"
-                                       Foreground="White"
-                                       HorizontalAlignment="Center"
-                                       Margin="0,16,0,0"/>
-                            <TextBlock Text="ou cliquez pour sélectionner"
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        
+                        <!-- Empty state -->
+                        <StackPanel Grid.Row="1" 
+                                    IsVisible="{Binding !HasPeers}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Opacity="0.7">
+                            <TextBlock Text="🔍" FontSize="40" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Recherche..."
                                        FontSize="14"
                                        Foreground="#64748b"
                                        HorizontalAlignment="Center"
-                                       Margin="0,4,0,16"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-                                <Button Classes="primary"
-                                        Content="📄 Fichier"
-                                        Command="{Binding SelectFileCommand}"/>
-                                <Button Classes="primary"
-                                        Content="📁 Dossier"
-                                        Command="{Binding SelectFolderCommand}"/>
-                            </StackPanel>
+                                       Margin="0,12,0,0"/>
                         </StackPanel>
-                    </Border>
-                    
-                    <!-- Transfer Progress -->
-                    <Border Grid.Row="1" 
-                            Margin="0,16,0,0"
-                            IsVisible="{Binding IsTransferring}">
-                        <StackPanel>
-                            <Grid ColumnDefinitions="*,Auto">
-                                <TextBlock Text="{Binding TransferFileName}"
-                                           FontSize="14"
+                        
+                        <!-- Code Share Buttons -->
+                        <StackPanel Grid.Row="2" Spacing="10" Margin="0,20,0,0">
+                            <Button Classes="primary"
+                                    Content="🔗 Partager mon code"
+                                    Command="{Binding ShareCodeCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"/>
+                            <Button Classes="success"
+                                    Content="🎯 Entrer un code ami"
+                                    Command="{Binding EnterCodeCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                
+                <!-- Right Panel: Drop Zone -->
+                <Border Grid.Column="2" Classes="glass-card">
+                    <Grid RowDefinitions="*,Auto">
+                        <!-- Drop Zone -->
+                        <Border Grid.Row="0"
+                                CornerRadius="16"
+                                Background="{Binding DropZoneBackground}"
+                                DragDrop.AllowDrop="True"
+                                Tapped="OnDropZoneTapped">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                    <GradientStop Color="#334155" Offset="0"/>
+                                    <GradientStop Color="#1e293b" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <Border.BorderThickness>
+                                <Thickness>2</Thickness>
+                            </Border.BorderThickness>
+                            
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <!-- Icon -->
+                                <Border Width="100" Height="100" 
+                                        CornerRadius="50"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,0,24">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                            <GradientStop Color="#1e293b" Offset="0"/>
+                                            <GradientStop Color="#0f172a" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <TextBlock Text="📁" 
+                                               FontSize="48" 
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                                
+                                <TextBlock Text="Glissez vos fichiers ici"
+                                           FontSize="20"
                                            FontWeight="SemiBold"
-                                           Foreground="White"
-                                           TextTrimming="CharacterEllipsis"/>
-                                <TextBlock Grid.Column="1"
-                                           Text="{Binding TransferSpeed}"
-                                           FontSize="12"
-                                           Foreground="#94a3b8"/>
-                            </Grid>
-                            
-                            <ProgressBar Value="{Binding TransferProgress}"
-                                         Minimum="0"
-                                         Maximum="100"
-                                         Height="8"
-                                         Margin="0,8,0,0"
-                                         CornerRadius="4"
-                                         Foreground="#6366f1"
-                                         Background="#334155"/>
-                            
-                            <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
-                                <TextBlock Text="{Binding TransferProgressText}"
-                                           FontSize="12"
-                                           Foreground="#64748b"/>
-                                <TextBlock Grid.Column="1"
-                                           Text="{Binding TransferPercent}"
-                                           FontSize="12"
-                                           Foreground="#94a3b8"/>
-                            </Grid>
-                        </StackPanel>
-                    </Border>
+                                           Foreground="#f1f5f9"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="ou cliquez pour sélectionner"
+                                           FontSize="14"
+                                           Foreground="#64748b"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,6,0,24"/>
+                                
+                                <!-- Buttons -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12">
+                                    <Button Classes="secondary"
+                                            Content="📄 Fichier"
+                                            Command="{Binding SelectFileCommand}"/>
+                                    <Button Classes="secondary"
+                                            Content="📁 Dossier"
+                                            Command="{Binding SelectFolderCommand}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Transfer Progress -->
+                        <Border Grid.Row="1" 
+                                Margin="0,20,0,0"
+                                IsVisible="{Binding IsTransferring}"
+                                Background="#0d1117"
+                                CornerRadius="12"
+                                Padding="16"
+                                BorderThickness="1"
+                                BorderBrush="#21262d">
+                            <StackPanel>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <TextBlock Text="{Binding TransferFileName}"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="#f1f5f9"
+                                               TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding TransferSpeed}"
+                                               FontSize="13"
+                                               Foreground="#94a3b8"/>
+                                </Grid>
+                                
+                                <ProgressBar Value="{Binding TransferProgress}"
+                                             Minimum="0"
+                                             Maximum="100"
+                                             Height="6" 
+                                             Margin="0,12,0,0"
+                                             CornerRadius="3"
+                                             Background="#1e293b"
+                                             Foreground="#6366f1"/>
+                                
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                                    <TextBlock Text="{Binding TransferProgressText}"
+                                               FontSize="12"
+                                               Foreground="#64748b"/>
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding TransferPercent}"
+                                               FontSize="12"
+                                               Foreground="#6366f1"
+                                               FontWeight="SemiBold"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+            
+            <!-- Footer Status Bar -->
+            <Border Grid.Row="2" 
+                    Background="#0d1117"
+                    CornerRadius="12"
+                    Padding="16,12"
+                    Margin="0,24,0,0"
+                    BorderThickness="1"
+                    BorderBrush="#21262d">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Ellipse Width="8" Height="8" Fill="#22c55e"/>
+                        <TextBlock Text="{Binding StatusMessage}"
+                                   FontSize="13"
+                                   Foreground="#94a3b8"/>
+                    </StackPanel>
+                    
+                    <TextBlock Grid.Column="2"
+                               Text="{Binding LocalAddress}"
+                               FontSize="12"
+                               Foreground="#475569"
+                               FontFamily="Consolas, monospace"/>
                 </Grid>
             </Border>
         </Grid>
-        
-        <!-- Footer: Status Bar -->
-        <Border Grid.Row="2" 
-                Background="#0f3460"
-                CornerRadius="8"
-                Padding="12,8"
-                Margin="0,20,0,0">
-            <Grid ColumnDefinitions="Auto,*,Auto">
-                <StackPanel Orientation="Horizontal">
-                    <Ellipse Width="8" Height="8" Fill="#22c55e"/>
-                    <TextBlock Text="{Binding StatusMessage}"
-                               FontSize="12"
-                               Foreground="#94a3b8"
-                               Margin="8,0,0,0"/>
-                </StackPanel>
-                
-                <TextBlock Grid.Column="2"
-                           Text="{Binding LocalAddress}"
-                           FontSize="12"
-                           Foreground="#64748b"/>
-            </Grid>
-        </Border>
-    </Grid>
+    </Panel>
     
     <Window.Resources>
         <vm:FirstCharConverter x:Key="FirstCharConverter"/>
