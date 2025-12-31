@@ -5,8 +5,9 @@ using LanTransfer.Core.Models;
 namespace LanTransfer.Core.Transfer;
 
 /// <summary>
-/// TCP client for sending files to peers.
+/// TCP client for sending files and folders to peers.
 /// Uses chunk-based writing to handle large files without loading into memory.
+/// Folders are automatically compressed to ZIP before sending.
 /// </summary>
 public class TcpTransferClient
 {
@@ -28,12 +29,69 @@ public class TcpTransferClient
     }
     
     /// <summary>
-    /// Sends a file to a peer.
+    /// Sends a file or folder to a peer.
+    /// Folders are automatically compressed to ZIP before sending.
     /// </summary>
     /// <param name="peer">The target peer.</param>
-    /// <param name="filePath">Path to the file to send.</param>
+    /// <param name="path">Path to the file or folder to send.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>True if transfer was accepted and completed successfully.</returns>
+    public async Task<bool> SendAsync(
+        Peer peer, 
+        string path, 
+        CancellationToken cancellationToken = default)
+    {
+        // Check if it's a folder
+        if (FolderCompressor.IsFolder(path))
+        {
+            return await SendFolderAsync(peer, path, cancellationToken);
+        }
+        else
+        {
+            return await SendFileAsync(peer, path, cancellationToken);
+        }
+    }
+    
+    /// <summary>
+    /// Sends a folder to a peer (compressed as ZIP).
+    /// </summary>
+    public async Task<bool> SendFolderAsync(
+        Peer peer,
+        string folderPath,
+        CancellationToken cancellationToken = default)
+    {
+        if (!Directory.Exists(folderPath))
+        {
+            throw new DirectoryNotFoundException($"Folder not found: {folderPath}");
+        }
+        
+        string? tempZipPath = null;
+        
+        try
+        {
+            // Compress folder to temporary ZIP
+            Console.WriteLine($"[Client] Compressing folder: {folderPath}");
+            tempZipPath = FolderCompressor.CompressFolder(folderPath);
+            
+            // Get the folder ZIP name (with .folder.zip marker)
+            string zipFileName = FolderCompressor.GetFolderZipName(folderPath);
+            
+            // Send the ZIP with the special folder marker filename
+            return await SendFileInternalAsync(peer, tempZipPath, zipFileName, cancellationToken);
+        }
+        finally
+        {
+            // Clean up temporary ZIP file
+            if (!string.IsNullOrEmpty(tempZipPath) && File.Exists(tempZipPath))
+            {
+                try { File.Delete(tempZipPath); } catch { }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Sends a file to a peer.
+    /// </summary>
     public async Task<bool> SendFileAsync(
         Peer peer, 
         string filePath, 
@@ -44,8 +102,20 @@ public class TcpTransferClient
             throw new FileNotFoundException("File not found", filePath);
         }
         
+        string fileName = Path.GetFileName(filePath);
+        return await SendFileInternalAsync(peer, filePath, fileName, cancellationToken);
+    }
+    
+    /// <summary>
+    /// Internal method to send a file with a specified display name.
+    /// </summary>
+    private async Task<bool> SendFileInternalAsync(
+        Peer peer,
+        string filePath,
+        string displayFileName,
+        CancellationToken cancellationToken = default)
+    {
         var fileInfo = new FileInfo(filePath);
-        string fileName = fileInfo.Name;
         long fileSize = fileInfo.Length;
         
         TcpClient? client = null;
@@ -69,8 +139,8 @@ public class TcpTransferClient
             
             using var stream = client.GetStream();
             
-            // 2. Send metadata header
-            var metadata = $"{fileName}|{fileSize}|{_localId}|{_localName}";
+            // 2. Send metadata header (using display filename, not actual path)
+            var metadata = $"{displayFileName}|{fileSize}|{_localId}|{_localName}";
             var metadataBytes = Encoding.UTF8.GetBytes(metadata);
             var headerBytes = BitConverter.GetBytes(metadataBytes.Length);
             
@@ -91,7 +161,7 @@ public class TcpTransferClient
             // 4. Send file data in chunks
             var transferInfo = new TransferInfo
             {
-                FileName = fileName,
+                FileName = displayFileName,
                 TotalBytes = fileSize
             };
             
@@ -143,7 +213,7 @@ public class TcpTransferClient
             transferInfo.TransferredBytes = fileSize;
             TransferProgress?.Invoke(this, transferInfo);
             
-            Console.WriteLine($"[Client] Transfer complete: {fileName} -> {peer.Name}");
+            Console.WriteLine($"[Client] Transfer complete: {displayFileName} -> {peer.Name}");
             return true;
         }
         catch (SocketException ex)
@@ -164,32 +234,43 @@ public class TcpTransferClient
     }
     
     /// <summary>
-    /// Sends multiple files to a peer.
+    /// Sends multiple files or folders to a peer.
     /// </summary>
-    public async Task<int> SendFilesAsync(
+    public async Task<int> SendMultipleAsync(
         Peer peer, 
-        IEnumerable<string> filePaths, 
+        IEnumerable<string> paths, 
         CancellationToken cancellationToken = default)
     {
         int successCount = 0;
         
-        foreach (var filePath in filePaths)
+        foreach (var path in paths)
         {
             cancellationToken.ThrowIfCancellationRequested();
             
             try
             {
-                if (await SendFileAsync(peer, filePath, cancellationToken))
+                if (await SendAsync(peer, path, cancellationToken))
                 {
                     successCount++;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Client] Failed to send {filePath}: {ex.Message}");
+                Console.WriteLine($"[Client] Failed to send {path}: {ex.Message}");
             }
         }
         
         return successCount;
+    }
+    
+    /// <summary>
+    /// Sends multiple files to a peer (legacy method for compatibility).
+    /// </summary>
+    public async Task<int> SendFilesAsync(
+        Peer peer, 
+        IEnumerable<string> filePaths, 
+        CancellationToken cancellationToken = default)
+    {
+        return await SendMultipleAsync(peer, filePaths, cancellationToken);
     }
 }

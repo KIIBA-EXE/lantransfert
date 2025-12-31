@@ -11,7 +11,9 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LanTransfer.Core.Discovery;
+using LanTransfer.Core.Friends;
 using LanTransfer.Core.Models;
+using LanTransfer.Core.Signaling;
 using LanTransfer.Core.Transfer;
 
 namespace LanTransfer.Desktop.ViewModels;
@@ -21,6 +23,13 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly UdpDiscoveryService _discoveryService;
     private readonly TcpTransferServer _transferServer;
     private readonly TcpTransferClient _transferClient;
+    private readonly FriendsManager _friendsManager;
+    private readonly SignalingClient _signalingClient;
+    
+    // Server URL - change this when deploying
+    private const string SIGNALING_SERVER_URL = "http://localhost:3000";
+    
+    private List<Peer> _discoveredPeers = new();
     
     [ObservableProperty]
     private ObservableCollection<Peer> _peers = new();
@@ -73,13 +82,23 @@ public partial class MainWindowViewModel : ObservableObject
         // Initialize transfer client
         _transferClient = new TcpTransferClient();
         
+        // Initialize friends manager
+        _friendsManager = new FriendsManager();
+        
+        // Initialize signaling client
+        _signalingClient = new SignalingClient(SIGNALING_SERVER_URL);
+        
         // Wire up events
         _discoveryService.PeersChanged += OnPeersChanged;
+        _friendsManager.FriendsChanged += OnFriendsChanged;
         _transferServer.TransferProgress += OnTransferProgress;
         _transferServer.TransferCompleted += OnTransferCompleted;
         _transferServer.TransferFailed += OnTransferFailed;
         _transferServer.TransferRequested += OnTransferRequested;
         _transferClient.TransferProgress += OnTransferProgress;
+        
+        // Load friends on startup
+        LoadFriendsIntoPeers();
         
         // Get local IP
         LocalAddress = $"IP: {GetLocalIPAddress()}:{_transferServer.Port}";
@@ -96,18 +115,57 @@ public partial class MainWindowViewModel : ObservableObject
     {
         _discoveryService.Stop();
         _transferServer.Stop();
+        _signalingClient.UnregisterAsync().Wait();
         _discoveryService.Dispose();
         _transferServer.Dispose();
+        _signalingClient.Dispose();
     }
     
     private void OnPeersChanged(object? sender, List<Peer> peers)
     {
+        _discoveredPeers = peers;
+        RefreshPeersList();
+    }
+    
+    private void OnFriendsChanged(object? sender, List<RemoteFriend> friends)
+    {
+        RefreshPeersList();
+    }
+    
+    private void LoadFriendsIntoPeers()
+    {
+        RefreshPeersList();
+    }
+    
+    private void RefreshPeersList()
+    {
         Dispatcher.UIThread.InvokeAsync(() =>
         {
             Peers.Clear();
-            foreach (var peer in peers)
+            
+            // Add friends first (marked with star)
+            foreach (var friend in _friendsManager.Friends)
             {
-                Peers.Add(peer);
+                Peers.Add(new Peer
+                {
+                    Id = friend.Id,
+                    Name = $"⭐ {friend.Name}",
+                    IpAddress = friend.IpAddress,
+                    TcpPort = friend.TcpPort,
+                    LastSeen = friend.LastSeen
+                });
+            }
+            
+            // Add discovered peers (not already in friends)
+            foreach (var peer in _discoveredPeers)
+            {
+                bool isFriend = _friendsManager.Friends.Any(f => 
+                    f.IpAddress == peer.IpAddress && f.TcpPort == peer.TcpPort);
+                
+                if (!isFriend)
+                {
+                    Peers.Add(peer);
+                }
             }
             
             OnPropertyChanged(nameof(PeerCount));
@@ -115,9 +173,17 @@ public partial class MainWindowViewModel : ObservableObject
             OnPropertyChanged(nameof(HasPeers));
             OnPropertyChanged(nameof(StatusColor));
             
-            StatusMessage = HasPeers 
-                ? $"{PeerCount} appareil(s) détecté(s)" 
-                : "Recherche d'appareils sur le réseau...";
+            int friendCount = _friendsManager.Friends.Count;
+            int discoveredCount = _discoveredPeers.Count;
+            
+            if (friendCount > 0 || discoveredCount > 0)
+            {
+                StatusMessage = $"{friendCount} ami(s), {discoveredCount} détecté(s)";
+            }
+            else
+            {
+                StatusMessage = "Recherche d'appareils sur le réseau...";
+            }
         });
     }
     
@@ -225,7 +291,45 @@ public partial class MainWindowViewModel : ObservableObject
                 }
             }
             
-            await SendFilesAsync(paths);
+            await SendPathsAsync(paths);
+        }
+    }
+    
+    [RelayCommand]
+    private async Task SelectFolder()
+    {
+        if (SelectedPeer == null)
+        {
+            if (Peers.Count > 0)
+            {
+                SelectedPeer = Peers[0];
+            }
+            else
+            {
+                StatusMessage = "Aucun appareil disponible pour l'envoi";
+                return;
+            }
+        }
+        
+        var topLevel = TopLevel.GetTopLevel(Application.Current?.ApplicationLifetime 
+            is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop 
+            ? desktop.MainWindow : null);
+        
+        if (topLevel == null) return;
+        
+        var folders = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        {
+            Title = "Sélectionner un dossier à envoyer",
+            AllowMultiple = false
+        });
+        
+        if (folders.Count > 0)
+        {
+            var path = folders[0].TryGetLocalPath();
+            if (!string.IsNullOrEmpty(path))
+            {
+                await SendPathsAsync([path]);
+            }
         }
     }
     
@@ -236,7 +340,84 @@ public partial class MainWindowViewModel : ObservableObject
         StatusMessage = $"Sélectionné: {peer.Name}";
     }
     
-    public async Task SendFilesAsync(List<string> filePaths)
+    [RelayCommand]
+    private async Task AddFriend()
+    {
+        if (Application.Current?.ApplicationLifetime 
+            is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop 
+            && desktop.MainWindow != null)
+        {
+            var dialog = new AddFriendDialog();
+            await dialog.ShowDialog(desktop.MainWindow);
+            
+            if (dialog.WasAdded)
+            {
+                var friend = _friendsManager.AddFriend(
+                    dialog.FriendName,
+                    dialog.IpAddress,
+                    dialog.Port
+                );
+                
+                StatusMessage = $"Ami ajouté: {friend.Name} ({friend.IpAddress}:{friend.TcpPort})";
+            }
+        }
+    }
+    
+    [RelayCommand]
+    private void RemoveFriend(Peer peer)
+    {
+        // Remove from friends if it's a friend (has star prefix)
+        if (peer.Name.StartsWith("⭐"))
+        {
+            _friendsManager.RemoveFriend(peer.Id);
+            StatusMessage = $"Ami supprimé: {peer.Name.Replace("⭐ ", "")}";
+        }
+    }
+    
+    [RelayCommand]
+    private async Task ShareCode()
+    {
+        if (Application.Current?.ApplicationLifetime 
+            is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop 
+            && desktop.MainWindow != null)
+        {
+            var dialog = new ShareCodeDialog(_signalingClient, _transferServer.Port, Environment.MachineName);
+            await dialog.ShowDialog(desktop.MainWindow);
+            
+            if (dialog.Code != null)
+            {
+                StatusMessage = $"Code de partage: {dialog.Code}";
+            }
+        }
+    }
+    
+    [RelayCommand]
+    private async Task EnterCode()
+    {
+        if (Application.Current?.ApplicationLifetime 
+            is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop 
+            && desktop.MainWindow != null)
+        {
+            var dialog = new EnterCodeDialog(_signalingClient);
+            await dialog.ShowDialog(desktop.MainWindow);
+            
+            if (dialog.WasConnected && dialog.PeerInfo != null)
+            {
+                // Add as friend automatically
+                var friend = _friendsManager.AddFriend(
+                    dialog.PeerInfo.Name ?? "Ami",
+                    dialog.PeerInfo.Ip!,
+                    dialog.PeerInfo.Port
+                );
+                
+                StatusMessage = $"Connecté à {friend.Name} via code!";
+            }
+        }
+    }
+    
+    public async Task SendFilesAsync(List<string> filePaths) => await SendPathsAsync(filePaths);
+    
+    public async Task SendPathsAsync(List<string> paths)
     {
         if (SelectedPeer == null)
         {
@@ -256,25 +437,28 @@ public partial class MainWindowViewModel : ObservableObject
         
         try
         {
-            foreach (var path in filePaths)
+            foreach (var path in paths)
             {
+                bool isFolder = Directory.Exists(path);
+                string displayName = Path.GetFileName(path.TrimEnd(Path.DirectorySeparatorChar));
+                
                 CurrentTransfer = new TransferInfo
                 {
-                    FileName = Path.GetFileName(path),
-                    TotalBytes = new FileInfo(path).Length
+                    FileName = isFolder ? $"📁 {displayName}" : displayName,
+                    TotalBytes = isFolder ? GetFolderSize(path) : new FileInfo(path).Length
                 };
                 
                 OnPropertyChanged(nameof(TransferFileName));
                 
-                bool success = await _transferClient.SendFileAsync(SelectedPeer, path);
+                bool success = await _transferClient.SendAsync(SelectedPeer, path);
                 
                 if (success)
                 {
-                    StatusMessage = $"Envoyé: {Path.GetFileName(path)}";
+                    StatusMessage = $"Envoyé: {displayName}";
                 }
                 else
                 {
-                    StatusMessage = $"Refusé: {Path.GetFileName(path)}";
+                    StatusMessage = $"Refusé: {displayName}";
                 }
             }
         }
@@ -285,6 +469,20 @@ public partial class MainWindowViewModel : ObservableObject
         finally
         {
             IsTransferring = false;
+        }
+    }
+    
+    private static long GetFolderSize(string folderPath)
+    {
+        try
+        {
+            return new DirectoryInfo(folderPath)
+                .EnumerateFiles("*", SearchOption.AllDirectories)
+                .Sum(f => f.Length);
+        }
+        catch
+        {
+            return 0;
         }
     }
     

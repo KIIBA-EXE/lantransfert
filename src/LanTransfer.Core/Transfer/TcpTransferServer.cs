@@ -221,12 +221,34 @@ public class TcpTransferServer : IDisposable
                 File.Move(tempPath, finalPath, overwrite: true);
                 tempPath = string.Empty;
                 
+                // 6. Check if it's a folder ZIP and extract it
+                string resultPath = finalPath;
+                if (FolderCompressor.IsCompressedFolder(fileName))
+                {
+                    try
+                    {
+                        Console.WriteLine($"[Server] Extracting folder: {fileName}");
+                        string extractedPath = FolderCompressor.ExtractZip(finalPath, _downloadFolder);
+                        
+                        // Delete the ZIP file after extraction
+                        File.Delete(finalPath);
+                        
+                        resultPath = extractedPath;
+                        Console.WriteLine($"[Server] Folder extracted to: {extractedPath}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[Server] Failed to extract folder: {ex.Message}");
+                        // Keep the ZIP on failure
+                    }
+                }
+                
                 // Final progress update
                 transferInfo.TransferredBytes = fileSize;
                 TransferProgress?.Invoke(this, transferInfo);
                 
-                TransferCompleted?.Invoke(this, finalPath);
-                Console.WriteLine($"[Server] Transfer complete: {finalPath}");
+                TransferCompleted?.Invoke(this, resultPath);
+                Console.WriteLine($"[Server] Transfer complete: {resultPath}");
             }
         }
         catch (OperationCanceledException)

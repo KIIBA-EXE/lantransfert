@@ -1,0 +1,117 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="LanTransfer.Desktop.AddFriendDialog"
+        Title="Ajouter un ami distant"
+        Width="420"
+        Height="340"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Background="#1a1a2e"
+        SystemDecorations="BorderOnly">
+    
+    <Window.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#0f3460"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#334155"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style Selector="TextBox:focus">
+            <Setter Property="BorderBrush" Value="#6366f1"/>
+        </Style>
+        
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#6366f1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#818cf8"/>
+        </Style>
+        
+        <Style Selector="Button.secondary">
+            <Setter Property="Background" Value="#334155"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style Selector="Button.secondary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#475569"/>
+        </Style>
+    </Window.Styles>
+    
+    <Border Background="#16213e" CornerRadius="12" Margin="12">
+        <Grid RowDefinitions="Auto,*,Auto" Margin="20">
+            <!-- Header -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+                <TextBlock Text="🌐" FontSize="48" HorizontalAlignment="Center"/>
+                <TextBlock Text="Ajouter un ami distant"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="0,8,0,0"/>
+                <TextBlock Text="Entrez l'adresse IP et le port de votre ami"
+                           FontSize="13"
+                           Foreground="#94a3b8"
+                           HorizontalAlignment="Center"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+            
+            <!-- Form -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,20">
+                <TextBlock Text="Nom de l'ami"
+                           FontSize="13"
+                           Foreground="#94a3b8"
+                           Margin="0,0,0,6"/>
+                <TextBox x:Name="FriendNameInput"
+                         Watermark="Ex: Pierre, Bureau, etc."
+                         Margin="0,0,0,16"/>
+                
+                <TextBlock Text="Adresse IP"
+                           FontSize="13"
+                           Foreground="#94a3b8"
+                           Margin="0,0,0,6"/>
+                <TextBox x:Name="IpAddressInput"
+                         Watermark="Ex: 192.168.1.50 ou 85.123.45.67"
+                         Margin="0,0,0,16"/>
+                
+                <TextBlock Text="Port TCP"
+                           FontSize="13"
+                           Foreground="#94a3b8"
+                           Margin="0,0,0,6"/>
+                <TextBox x:Name="PortInput"
+                         Watermark="Ex: 45455"
+                         Text="45455"/>
+                
+                <TextBlock x:Name="ErrorText"
+                           FontSize="12"
+                           Foreground="#ef4444"
+                           Margin="0,12,0,0"
+                           IsVisible="False"/>
+            </StackPanel>
+            
+            <!-- Buttons -->
+            <Grid Grid.Row="2" ColumnDefinitions="*,16,*">
+                <Button Grid.Column="0"
+                        Classes="secondary"
+                        Content="Annuler"
+                        Click="OnCancel"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"/>
+                <Button Grid.Column="2"
+                        Classes="primary"
+                        Content="✓ Ajouter"
+                        Click="OnAdd"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,102 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="LanTransfer.Desktop.EnterCodeDialog"
+        Title="Entrer un code ami"
+        Width="400"
+        Height="280"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Background="#1a1a2e"
+        SystemDecorations="BorderOnly">
+    
+    <Window.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#0f3460"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#334155"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="16,14"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Consolas, monospace"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="LetterSpacing" Value="4"/>
+        </Style>
+        <Style Selector="TextBox:focus">
+            <Setter Property="BorderBrush" Value="#6366f1"/>
+        </Style>
+        
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#6366f1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#818cf8"/>
+        </Style>
+        
+        <Style Selector="Button.secondary">
+            <Setter Property="Background" Value="#334155"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Styles>
+    
+    <Border Background="#16213e" CornerRadius="12" Margin="12">
+        <Grid RowDefinitions="Auto,*,Auto" Margin="20">
+            <!-- Header -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+                <TextBlock Text="🎯" FontSize="48" HorizontalAlignment="Center"/>
+                <TextBlock Text="Entrer le code de votre ami"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="0,8,0,0"/>
+            </StackPanel>
+            
+            <!-- Code Input -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <TextBox x:Name="CodeInput"
+                         Watermark="ABC123"
+                         MaxLength="7"/>
+                
+                <TextBlock x:Name="ErrorText"
+                           FontSize="12"
+                           Foreground="#ef4444"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,0"
+                           IsVisible="False"/>
+                           
+                <TextBlock x:Name="SuccessText"
+                           FontSize="12"
+                           Foreground="#22c55e"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,0"
+                           IsVisible="False"/>
+            </StackPanel>
+            
+            <!-- Buttons -->
+            <Grid Grid.Row="2" ColumnDefinitions="*,16,*">
+                <Button Grid.Column="0"
+                        Classes="secondary"
+                        Content="Annuler"
+                        Click="OnCancel"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"/>
+                <Button Grid.Column="2"
+                        Classes="primary"
+                        x:Name="ConnectButton"
+                        Content="🔗 Connecter"
+                        Click="OnConnect"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

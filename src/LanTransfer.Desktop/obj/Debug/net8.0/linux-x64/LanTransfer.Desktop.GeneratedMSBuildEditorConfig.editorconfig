@@ -23,10 +23,19 @@ build_property.ProjectDir = /home/kiiba/Documents/Codings/lantransfert/src/LanTr
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
+[/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/AddFriendDialog.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/EnterCodeDialog.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/ShareCodeDialog.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/TransferRequestDialog.axaml]

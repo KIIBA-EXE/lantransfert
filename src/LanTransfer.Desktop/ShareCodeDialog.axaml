@@ -1,0 +1,116 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="LanTransfer.Desktop.ShareCodeDialog"
+        Title="Partager votre code"
+        Width="400"
+        Height="320"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Background="#1a1a2e"
+        SystemDecorations="BorderOnly">
+    
+    <Window.Styles>
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#6366f1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#818cf8"/>
+        </Style>
+        
+        <Style Selector="Button.secondary">
+            <Setter Property="Background" Value="#334155"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Styles>
+    
+    <Border Background="#16213e" CornerRadius="12" Margin="12">
+        <Grid RowDefinitions="Auto,*,Auto" Margin="20">
+            <!-- Header -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+                <TextBlock Text="🔗" FontSize="48" HorizontalAlignment="Center"/>
+                <TextBlock Text="Votre code de partage"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="0,8,0,0"/>
+                <TextBlock Text="Partagez ce code avec votre ami"
+                           FontSize="13"
+                           Foreground="#94a3b8"
+                           HorizontalAlignment="Center"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+            
+            <!-- Code Display -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <!-- Loading state -->
+                <StackPanel x:Name="LoadingState" IsVisible="True" HorizontalAlignment="Center">
+                    <TextBlock Text="⏳" FontSize="32" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Obtention du code..."
+                               FontSize="14"
+                               Foreground="#94a3b8"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+                
+                <!-- Code state -->
+                <StackPanel x:Name="CodeState" IsVisible="False" HorizontalAlignment="Center">
+                    <Border Background="#0f3460" 
+                            CornerRadius="12" 
+                            Padding="30,20"
+                            HorizontalAlignment="Center">
+                        <TextBlock x:Name="CodeText"
+                                   Text="ABC-123"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   Foreground="#22c55e"
+                                   FontFamily="Consolas, monospace"
+                                   HorizontalAlignment="Center"
+                                   LetterSpacing="4"/>
+                    </Border>
+                    
+                    <Button Classes="secondary"
+                            Content="📋 Copier le code"
+                            Click="OnCopyCode"
+                            HorizontalAlignment="Center"
+                            Margin="0,16,0,0"/>
+                    
+                    <TextBlock Text="Code valide 5 minutes"
+                               FontSize="12"
+                               Foreground="#64748b"
+                               HorizontalAlignment="Center"
+                               Margin="0,12,0,0"/>
+                </StackPanel>
+                
+                <!-- Error state -->
+                <StackPanel x:Name="ErrorState" IsVisible="False" HorizontalAlignment="Center">
+                    <TextBlock Text="❌" FontSize="32" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="ErrorText"
+                               Text="Erreur de connexion au serveur"
+                               FontSize="14"
+                               Foreground="#ef4444"
+                               HorizontalAlignment="Center"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- Close Button -->
+            <Button Grid.Row="2"
+                    Classes="primary"
+                    Content="Fermer"
+                    Click="OnClose"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"/>
+        </Grid>
+    </Border>
+</Window>

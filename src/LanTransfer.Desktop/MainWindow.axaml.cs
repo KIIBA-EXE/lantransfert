@@ -60,22 +60,26 @@ public partial class MainWindow : Window
         
         if (e.Data.Contains(DataFormats.Files))
         {
-            var files = e.Data.GetFiles();
-            if (files != null)
+            var items = e.Data.GetFiles();
+            if (items != null)
             {
                 var paths = new List<string>();
-                foreach (var file in files)
+                foreach (var item in items)
                 {
-                    var path = file.TryGetLocalPath();
-                    if (!string.IsNullOrEmpty(path) && File.Exists(path))
+                    var path = item.TryGetLocalPath();
+                    if (!string.IsNullOrEmpty(path))
                     {
-                        paths.Add(path);
+                        // Accept both files and directories
+                        if (File.Exists(path) || Directory.Exists(path))
+                        {
+                            paths.Add(path);
+                        }
                     }
                 }
                 
                 if (paths.Count > 0)
                 {
-                    await ViewModel.SendFilesAsync(paths);
+                    await ViewModel.SendPathsAsync(paths);
                 }
             }
         }
