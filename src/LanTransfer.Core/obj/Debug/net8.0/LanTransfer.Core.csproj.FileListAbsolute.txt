@@ -1,0 +1,11 @@
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/bin/Debug/net8.0/LanTransfer.Core.deps.json
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/bin/Debug/net8.0/LanTransfer.Core.dll
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/bin/Debug/net8.0/LanTransfer.Core.pdb
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/LanTransfer.Core.GeneratedMSBuildEditorConfig.editorconfig
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/LanTransfer.Core.AssemblyInfoInputs.cache
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/LanTransfer.Core.AssemblyInfo.cs
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/LanTransfer.Core.csproj.CoreCompileInputs.cache
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/LanTransfer.Core.dll
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/refint/LanTransfer.Core.dll
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/LanTransfer.Core.pdb
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Core/obj/Debug/net8.0/ref/LanTransfer.Core.dll

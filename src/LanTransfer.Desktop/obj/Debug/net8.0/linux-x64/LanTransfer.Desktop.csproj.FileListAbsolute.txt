@@ -1,0 +1,13 @@
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.csproj.AssemblyReference.cache
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/Avalonia/Resources.Inputs.cache
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/Avalonia/resources
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.GeneratedMSBuildEditorConfig.editorconfig
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.AssemblyInfoInputs.cache
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.AssemblyInfo.cs
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.csproj.CoreCompileInputs.cache
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/Avalonia/LanTransfer.Desktop.dll
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/Avalonia/LanTransfer.Desktop.pdb
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/refint/Avalonia/LanTransfer.Desktop.dll
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.dll
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/refint/LanTransfer.Desktop.dll
+/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/obj/Debug/net8.0/linux-x64/LanTransfer.Desktop.pdb
