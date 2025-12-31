@@ -27,7 +27,7 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly SignalingClient _signalingClient;
     
     // Server URL - change this when deploying
-    private const string SIGNALING_SERVER_URL = "http://localhost:3000";
+    private const string SIGNALING_SERVER_URL = "https://lantransfer-signaling.onrender.com";
     
     private List<Peer> _discoveredPeers = new();
     
