@@ -1,126 +1,104 @@
-# KITRANSFERT
+# 🚀 KITRANSFERT
 
-Application de transfert de fichiers en réseau local (LAN) similaire à AirDrop, compatible Windows/Linux/macOS.
+> **Transferts de fichiers ultra-rapides, locaux et distants.**  
+> Plus simple qu'AirDrop, plus puissant, et cross-plateforme.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)
+![Icon](src/LanTransfer.Desktop/Assets/icon.png)
 
 ## ✨ Fonctionnalités
 
-- 🔍 **Découverte automatique** - Détecte automatiquement les appareils sur le réseau local via UDP Broadcast
-- 📁 **Transfert de fichiers** - Envoi de fichiers de toute taille via connexion TCP fiable
-- 🚀 **Gestion des gros fichiers** - Utilise des buffers de 8KB pour transférer des fichiers de plusieurs Go sans surcharger la RAM
-- 📊 **Barre de progression** - Visualisez la progression du transfert en temps réel
-- 🎨 **Interface moderne** - UI élégante avec thème sombre et design moderne
-- 🖱️ **Drag & Drop** - Glissez-déposez vos fichiers directement dans l'application
-- 🌐 **Cross-platform** - Fonctionne sur Windows, Linux et macOS
+- **⚡ Transfert instantané** : Glissez-déposez vos fichiers et dossiers.
+- **🌐 Réseau Local (LAN)** : Découverte automatique des appareils sur le même WiFi.
+- **🌍 Mode Distant** : Connectez-vous avec n'importe qui via un **Code de Partage** sécurisé.
+- **🔒 Sécurisé** : Transfert direct P2P (Peer-to-Peer). Vos fichiers ne transitent pas par le cloud.
+- **👤 Profil** : Choisissez votre pseudo pour être reconnu facilement.
+- **💻 Cross-Plateforme** : Compatible Windows, Linux et macOS.
 
-## 📥 Téléchargement
+---
 
-Téléchargez la dernière version pour votre système :
+## 📥 Installation
 
-| Plateforme | Téléchargement |
-|------------|----------------|
-| Windows x64 | [LanTransfer-win-x64.exe](../../releases/latest/download/LanTransfer-win-x64.exe) |
-| Linux x64 | [LanTransfer-linux-x64](../../releases/latest/download/LanTransfer-linux-x64) |
-| macOS Intel | [LanTransfer-osx-x64](../../releases/latest/download/LanTransfer-osx-x64) |
-| macOS Apple Silicon | [LanTransfer-osx-arm64](../../releases/latest/download/LanTransfer-osx-arm64) |
+Pas d'installation complexe requise. Téléchargez simplement l'exécutable pour votre système.
 
-## 🚀 Installation
+### 🪟 Windows
+1. Téléchargez le fichier `LanTransfer-win-x64.exe`.
+2. Double-cliquez pour lancer.
+3. (Optionnel) Faites un clic droit > "Épingler à la barre des tâches".
 
-### Windows
-1. Téléchargez `LanTransfer-win-x64.exe`
-2. Double-cliquez pour lancer (pas d'installation requise)
-3. Optionnel: Créez un raccourci sur le Bureau
+### 🐧 Linux
+1. Téléchargez le fichier `LanTransfer-linux-x64`.
+2. Ouvrez un terminal dans le dossier de téléchargement.
+3. Rendez le fichier exécutable et lancez-le :
+   ```bash
+   chmod +x LanTransfer-linux-x64
+   ./LanTransfer-linux-x64
+   ```
+4. (Recommandé) Déplacez-le dans `/usr/local/bin` ou créez un raccourci `.desktop`.
 
-### Linux
+### 🍎 macOS
+1. Téléchargez :
+   - Pour Mac Intel : `LanTransfer-osx-x64`
+   - Pour Mac M1/M2/M3 : `LanTransfer-osx-arm64`
+2. Rendez le fichier exécutable :
+   ```bash
+   chmod +x LanTransfer-osx-arm64  # Ou osx-x64
+   ```
+3. Lancez le fichier.
+   *Note : Si macOS bloque l'ouverture ("Développeur non identifié"), faites Clic-Droit > Ouvrir, puis confirmez.*
+
+---
+
+## 🎮 Comment utiliser
+
+### 1. Envoyer des fichiers
+1. Lancez **KITRANSFERT** sur les deux appareils.
+2. Si vous êtes sur le même WiFi, l'autre appareil apparaît automatiquement dans la liste de gauche.
+3. **Glissez** vos fichiers/dossiers dans la zone de droite.
+4. Cliquez sur le nom du destinataire dans la liste. C'est envoyé ! 🚀
+
+### 2. Connecter un ami distant (Internet)
+Si vous n'êtes pas sur le même réseau :
+1. Cliquez sur **"🔗 Partager mon code"**.
+2. Donnez le code à votre ami (ex: `ABC-123`).
+3. Votre ami clique sur **"🎯 Entrer un code ami"** et tape le code.
+4. Vous êtes connectés ! Vous pouvez transférer comme si vous étiez à côté.
+
+---
+
+## 🔨 Compilation (Pour les développeurs)
+
+Si vous souhaitez modifier le code source :
+
+### Pré-requis
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+
+### Cloner et lancer
 ```bash
-# Téléchargez et rendez exécutable
-chmod +x LanTransfer-linux-x64
-./LanTransfer-linux-x64
-```
-
-### macOS
-```bash
-# Téléchargez et rendez exécutable
-chmod +x LanTransfer-osx-x64  # ou osx-arm64 pour M1/M2
-./LanTransfer-osx-x64
-```
-
-> **Note macOS**: Vous devrez peut-être autoriser l'application dans Préférences Système > Sécurité & Confidentialité.
-
-## 🔧 Compilation depuis les sources
-
-### Prérequis
-- .NET 8.0 SDK
-
-### Build
-```bash
-# Clone le projet
-git clone https://github.com/votre-username/lantransfert.git
-cd lantransfert
-
-# Build pour la plateforme actuelle
-dotnet build
-
-# Exécuter
+git clone https://github.com/votre-repo/kitransfert.git
+cd kitransfert
 dotnet run --project src/LanTransfer.Desktop
+```
 
-# Build tous les exécutables (Linux/macOS)
-chmod +x build.sh
+### Générer les exécutables (Release)
+```bash
+# Linux/macOS
 ./build.sh
 
-# Build tous les exécutables (Windows)
-build.bat
+# Windows
+./build.bat
 ```
+Les fichiers seront créés dans le dossier `releases/`.
 
-## 📡 Architecture Technique
+---
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     Avalonia UI (MainWindow)                 │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────┐ │
-│  │   Peer List     │  │   Drop Zone     │  │  Progress   │ │
-│  └─────────────────┘  └─────────────────┘  └─────────────┘ │
-└─────────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    MainWindowViewModel                       │
-│           (Dispatcher.UIThread pour mises à jour)           │
-└─────────────────────────────────────────────────────────────┘
-        │                                       │
-        ▼                                       ▼
-┌───────────────────┐                 ┌───────────────────────┐
-│ UdpDiscoveryService│                 │   TcpTransferServer   │
-│  Port UDP: 45454   │                 │   TcpTransferClient   │
-│  Broadcast 2s      │                 │   Port TCP: dynamique │
-└───────────────────┘                 └───────────────────────┘
-```
+## 🔧 Architecture Technique
 
-### Gestion des buffers
+- **Frontend** : Avalonia UI (C# / XAML)
+- **Backend** : .NET 8
+- **Découverte** : UDP Broadcast (Port 45454)
+- **Transfert** : TCP Sockets (Ports dynamiques)
+- **Signalisation** : Node.js (WebSocket/HTTP) pour la mise en relation distante.
 
-Le transfert utilise des chunks de 8KB pour éviter de charger tout le fichier en mémoire :
+---
 
-```csharp
-const int BUFFER_SIZE = 8192; // 8KB
-byte[] buffer = new byte[BUFFER_SIZE];
-
-while ((bytesRead = await fileStream.ReadAsync(buffer)) > 0)
-{
-    await networkStream.WriteAsync(buffer, 0, bytesRead);
-    OnProgressUpdate(totalSent, fileSize);
-}
-```
-
-## 🔒 Sécurité
-
-- Aucune connexion Internet requise
-- Tous les transferts restent sur le réseau local
-- Validation des noms de fichiers contre les attaques path traversal
-- Fichiers temporaires nettoyés en cas d'échec
-
-## 📝 License
-
-MIT License - voir [LICENSE](LICENSE) pour plus de détails.
+Made with ❤️ by Kiiba.
