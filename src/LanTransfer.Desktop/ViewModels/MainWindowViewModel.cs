@@ -1,8 +1,10 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
@@ -41,8 +43,16 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private string _localAddress = "";
     
+    // Simplified binding properties
     public int PeerCount => Peers.Count;
     public bool HasPeers => Peers.Count > 0;
+    public string PeerCountText => $"{PeerCount} en ligne";
+    
+    public string TransferFileName => CurrentTransfer?.FileName ?? "";
+    public string TransferSpeed => CurrentTransfer?.SpeedFormatted ?? "";
+    public double TransferProgress => CurrentTransfer?.ProgressPercent ?? 0;
+    public string TransferProgressText => CurrentTransfer?.ProgressFormatted ?? "";
+    public string TransferPercent => $"{TransferProgress:F1}%";
     
     public IBrush StatusColor => HasPeers 
         ? new SolidColorBrush(Color.Parse("#22c55e")) 
@@ -101,6 +111,7 @@ public partial class MainWindowViewModel : ObservableObject
             }
             
             OnPropertyChanged(nameof(PeerCount));
+            OnPropertyChanged(nameof(PeerCountText));
             OnPropertyChanged(nameof(HasPeers));
             OnPropertyChanged(nameof(StatusColor));
             
@@ -116,6 +127,12 @@ public partial class MainWindowViewModel : ObservableObject
         {
             CurrentTransfer = info;
             IsTransferring = !info.IsComplete;
+            
+            OnPropertyChanged(nameof(TransferFileName));
+            OnPropertyChanged(nameof(TransferSpeed));
+            OnPropertyChanged(nameof(TransferProgress));
+            OnPropertyChanged(nameof(TransferProgressText));
+            OnPropertyChanged(nameof(TransferPercent));
         });
     }
     
@@ -179,11 +196,15 @@ public partial class MainWindowViewModel : ObservableObject
         
         if (files.Count > 0)
         {
-            var paths = files
-                .Select(f => f.TryGetLocalPath())
-                .Where(p => p != null)
-                .Cast<string>()
-                .ToList();
+            var paths = new List<string>();
+            foreach (var file in files)
+            {
+                var path = file.TryGetLocalPath();
+                if (!string.IsNullOrEmpty(path))
+                {
+                    paths.Add(path);
+                }
+            }
             
             await SendFilesAsync(paths);
         }
@@ -224,6 +245,8 @@ public partial class MainWindowViewModel : ObservableObject
                     TotalBytes = new FileInfo(path).Length
                 };
                 
+                OnPropertyChanged(nameof(TransferFileName));
+                
                 bool success = await _transferClient.SendFileAsync(SelectedPeer, path);
                 
                 if (success)
@@ -263,10 +286,21 @@ public partial class MainWindowViewModel : ObservableObject
 }
 
 /// <summary>
-/// Simple value converters.
+/// Converter that returns the first character of a string in uppercase.
 /// </summary>
-public static class Converters
+public class FirstCharConverter : IValueConverter
 {
-    public static Func<string?, string> FirstChar { get; } = value =>
-        string.IsNullOrEmpty(value) ? "?" : value[0].ToString().ToUpper();
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is string str && !string.IsNullOrEmpty(str))
+        {
+            return str[0].ToString().ToUpper();
+        }
+        return "?";
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
 }

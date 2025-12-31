@@ -88,4 +88,9 @@ public partial class MainWindow : Window
             ViewModel.SelectedPeer = peer;
         }
     }
+    
+    private async void OnDropZoneTapped(object? sender, RoutedEventArgs e)
+    {
+        await ViewModel.SelectFileCommand.ExecuteAsync(null);
+    }
 }

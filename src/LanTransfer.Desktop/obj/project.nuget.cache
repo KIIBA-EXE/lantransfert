@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EJJwqsGfVr8dDy4T++KK4ceZdBL75OFzOsAlADoHZshsD10lqd+IUgf+pyDMGEFQ9Fb6Q7YkOX4HLLnHJ++Qiw==",
+  "dgSpecHash": "3xawE2YZ8AG9Maor3m3qw0IVjqOKZZGZ+UJdv3mtcAtmYrY50ShatoB+X5Lf4lsf0Dy4glfkojxiP3btyxpSMQ==",
   "success": true,
   "projectFilePath": "/home/kiiba/Documents/Codings/lantransfert/src/LanTransfer.Desktop/LanTransfer.Desktop.csproj",
   "expectedPackageFiles": [
@@ -37,9 +37,9 @@
     "/home/kiiba/.nuget/packages/system.io.pipelines/8.0.0/system.io.pipelines.8.0.0.nupkg.sha512",
     "/home/kiiba/.nuget/packages/system.reactive/6.0.1/system.reactive.6.0.1.nupkg.sha512",
     "/home/kiiba/.nuget/packages/tmds.dbus.protocol/0.20.0/tmds.dbus.protocol.0.20.0.nupkg.sha512",
-    "/home/kiiba/.nuget/packages/microsoft.netcore.app.runtime.linux-x64/8.0.22/microsoft.netcore.app.runtime.linux-x64.8.0.22.nupkg.sha512",
-    "/home/kiiba/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-x64/8.0.22/microsoft.aspnetcore.app.runtime.linux-x64.8.0.22.nupkg.sha512",
-    "/home/kiiba/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.22/microsoft.netcore.app.host.linux-x64.8.0.22.nupkg.sha512"
+    "/home/kiiba/.nuget/packages/microsoft.netcore.app.runtime.osx-arm64/8.0.22/microsoft.netcore.app.runtime.osx-arm64.8.0.22.nupkg.sha512",
+    "/home/kiiba/.nuget/packages/microsoft.aspnetcore.app.runtime.osx-arm64/8.0.22/microsoft.aspnetcore.app.runtime.osx-arm64.8.0.22.nupkg.sha512",
+    "/home/kiiba/.nuget/packages/microsoft.netcore.app.host.osx-arm64/8.0.22/microsoft.netcore.app.host.osx-arm64.8.0.22.nupkg.sha512"
   ],
   "logs": []
 }
