@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using LanTransfer.Core.Models;
 using LanTransfer.Desktop.ViewModels;
@@ -15,6 +16,21 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = new MainWindowViewModel();
+        
+        // Load app icon
+        try
+        {
+            var uri = new Uri("avares://LanTransfer.Desktop/Assets/icon.png");
+            using var stream = Avalonia.Platform.AssetLoader.Open(uri);
+            if (stream != null)
+            {
+                Icon = new WindowIcon(stream);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to load icon: {ex.Message}");
+        }
         
         // Set up drag-drop handlers
         AddHandler(DragDrop.DragEnterEvent, OnDragEnter);

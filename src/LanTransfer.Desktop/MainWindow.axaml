@@ -8,6 +8,8 @@
         Width="900"
         Height="650"
         MinWidth="700"
+        Background="#1a1a2e"
+        Icon="avares://LanTransfer.Desktop/Assets/icon.png"
         MinHeight="500"
         WindowStartupLocation="CenterScreen"
         TransparencyLevelHint="AcrylicBlur"
