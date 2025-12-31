@@ -104,4 +104,14 @@ public partial class MainWindow : Window
     {
         await ViewModel.EditProfileCommand.ExecuteAsync(null);
     }
+    
+    private void OnMinimizeClick(object? sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Minimized;
+    }
+    
+    private void OnCloseClick(object? sender, RoutedEventArgs e)
+    {
+        Close();
+    }
 }

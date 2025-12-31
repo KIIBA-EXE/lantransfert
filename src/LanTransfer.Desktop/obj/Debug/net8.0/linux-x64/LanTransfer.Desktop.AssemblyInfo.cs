@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LanTransfer.Desktop")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a99808d576132b25c1302beefb31b30e56c1400b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f826c93ce2969393f61ff0bd5c4c94b991bae593")]
 [assembly: System.Reflection.AssemblyProductAttribute("LanTransfer.Desktop")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LanTransfer.Desktop")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
