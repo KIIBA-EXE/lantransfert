@@ -156,14 +156,33 @@ public partial class MainWindowViewModel : ObservableObject
     
     private async Task<bool> OnTransferRequested(FileTransferRequest request)
     {
-        // Auto-accept for now (could show dialog later)
-        await Dispatcher.UIThread.InvokeAsync(() =>
+        // Show confirmation dialog on UI thread
+        return await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            StatusMessage = $"Réception de {request.FileName} ({request.FileSizeFormatted})...";
-            IsTransferring = true;
+            var dialog = new TransferRequestDialog(request);
+            
+            // Get the main window
+            if (Application.Current?.ApplicationLifetime 
+                is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop 
+                && desktop.MainWindow != null)
+            {
+                await dialog.ShowDialog(desktop.MainWindow);
+                
+                if (dialog.Accepted)
+                {
+                    StatusMessage = $"Réception de {request.FileName} ({request.FileSizeFormatted})...";
+                    IsTransferring = true;
+                    return true;
+                }
+                else
+                {
+                    StatusMessage = $"Transfert refusé: {request.FileName}";
+                    return false;
+                }
+            }
+            
+            return false;
         });
-        
-        return true;
     }
     
     [RelayCommand]
